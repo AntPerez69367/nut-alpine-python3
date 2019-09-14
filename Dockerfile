@@ -99,4 +99,6 @@ RUN \
  mv setup.conf nut.default.conf && \
  cp /config/titledb-master/* /config/nut-master/titledb/ && \
  echo "**** Cleaning up ****" && \
- rm -rf /config/nut-master.zip /config/titledb.zip
+ rm -rf \
+ /config/nut-master.zip \
+ /config/titledb.zip
