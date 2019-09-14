@@ -1,10 +1,7 @@
-FROM lsiobase/alpine:3.9
+FROM lsiobase/alpine:3.10
 
 ENV IPADDR 192.168.1.5
 ENV GAMEDIR /data/games
-EXPOSE 9000
-
-WORKDIR /
 
 RUN \
  echo "**** install build packages ****" && \
@@ -102,3 +99,6 @@ RUN \
  rm -rf \
  /config/nut-master.zip \
  /config/titledb.zip
+
+EXPOSE 9000 9000
+VOLUME /config
