@@ -4,8 +4,7 @@ ENV IPADDR 192.168.1.5
 ENV GAMEDIR /data/games
 EXPOSE 9000
 
-
-WORKDIR /config
+WORKDIR /
 
 RUN \
  echo "**** install build packages ****" && \
@@ -88,11 +87,16 @@ RUN \
   /root/.cache \
   /tmp/*
 
+WORKDIR /config
 RUN \
- echo "**** Clone Repo and Configure nut ****" && \
- git clone https://github.com/blawar/nut.git && \
+ echo "**** Fetching and configuring nut. ****" && \
+ wget --no-check-certificate -O nut-master.zip https://github.com/blawar/nut/archive/master.zip &&\
+ wget --no-check-certificate -O titledb.zip https://github.com/blawar/titledb/archive/master.zip &&\
+ unzip nut-master.zip && \
+ unzip titledb.zip && \
+ cd /config/nut-master/conf && \
  jq --arg v1 $GAMEDIR '.paths.scan = $v1' < nut.default.conf | jq --arg v2 $IPADDR '.server.hostname = $v2' | tee setup.conf && \
- mv setup.conf nut.default.conf
-
-VOLUME /config
-VOLUME /data
+ mv setup.conf nut.default.conf && \
+ cp /config/titledb-master/* /config/nut-master/titledb/ && \
+ echo "**** Cleaning up ****" && \
+ rm -rf /config/nut-master.zip /config/titledb.zip
