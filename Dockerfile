@@ -2,8 +2,6 @@ FROM lsiobase/alpine:3.9
 
 ENV IPADDR 192.168.1.5
 ENV GAMEDIR /data/games
-VOLUME /config
-VOLUME /data
 EXPOSE 9000
 
 
@@ -89,8 +87,12 @@ RUN \
  rm -rf \
   /root/.cache \
   /tmp/*
-RUN git clone https://github.com/blawar/nut.git
 
-WORKDIR /config/nut/conf
-RUN jq --arg v1 $GAMEDIR '.paths.scan = $v1' < nut.default.conf | jq --arg v2 $IPADDR '.server.hostname = $v2' | tee setup.conf && \
-mv setup.conf nut.default.conf
+RUN \
+ echo "**** Clone Repo and Configure nut ****" && \
+ git clone https://github.com/blawar/nut.git && \
+ jq --arg v1 $GAMEDIR '.paths.scan = $v1' < nut.default.conf | jq --arg v2 $IPADDR '.server.hostname = $v2' | tee setup.conf && \
+ mv setup.conf nut.default.conf
+
+VOLUME /config
+VOLUME /data
