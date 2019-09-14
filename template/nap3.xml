@@ -4,7 +4,7 @@
 <Beta>False</Beta>
 <Category>Other:</Category>
 <Date>2015-12-05</Date>
-  <Name>blawar/nut</Name>
+  <Name>blawar-nut</Name>
   <Support></Support>
   <Overview>Custom docker to run blawars nut for the switch</Overview>
   <Description>Custom docker to run nut for the switch</Description>
