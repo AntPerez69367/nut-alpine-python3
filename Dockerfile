@@ -2,6 +2,10 @@ FROM lsiobase/alpine:3.9
 
 ENV IPADDR 192.168.1.5
 ENV GAMEDIR /data/games
+VOLUME /config
+VOLUME /data
+EXPOSE 9000
+
 
 WORKDIR /config
 
