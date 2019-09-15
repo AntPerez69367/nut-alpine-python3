@@ -99,10 +99,11 @@ RUN \
  mv setup.conf nut.default.conf && \
  cp /titledb-master/* /nut-master/titledb/ && \
  echo "**** Cleaning up ****" && \
+ mkdir -p /app/nut && \
+ cp -r /nut-master/* /app/nut && \
  rm -rf \
  /nut-master.zip \
  /titledb.zip
 
 EXPOSE 9000
 volume config/ data/
-ENV NUT_CONFIG_PATH=/config
