@@ -103,9 +103,6 @@ RUN \
  /nut-master.zip \
  /titledb.zip
 
-ADD /nut-master /app/nut
-
-
 EXPOSE 9000
 volume config/ data/
 ENV NUT_CONFIG_PATH=/config
