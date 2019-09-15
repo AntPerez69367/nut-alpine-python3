@@ -1,8 +1,5 @@
 FROM lsiobase/alpine:3.10
 
-ENV IPADDR 192.168.1.5
-ENV GAMEDIR /data/games
-
 RUN \
  echo "**** install build packages ****" && \
  apk add --no-cache --virtual=build-dependencies \
@@ -85,6 +82,8 @@ RUN \
   /tmp/*
 
 WORKDIR /config
+ENV IPADDR 192.168.1.5
+ENV GAMEDIR /data/games
 RUN \
  echo "**** Fetching and configuring nut. ****" && \
  wget --no-check-certificate -O nut-master.zip https://github.com/blawar/nut/archive/master.zip &&\
@@ -101,4 +100,3 @@ RUN \
  /config/titledb.zip
 
 EXPOSE 9000 9000
-VOLUME /config
