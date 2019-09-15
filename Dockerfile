@@ -34,7 +34,6 @@ RUN \
   p7zip \
   py3-lxml \
   python3 \
-  py3-qt5 \
   tar \
   tiff \
   unrar \
@@ -69,6 +68,7 @@ RUN \
   google-api-python-client \
   google-auth-oauthlib \
   flask \
+  bs4 \
   pyusb \
   requests \
   setuptools \
@@ -81,22 +81,31 @@ RUN \
   /root/.cache \
   /tmp/*
 
-WORKDIR /config
-ENV IPADDR 192.168.1.5
+ENV PYTHONIOENCODING="UTF-8"
+
+# Copy s6 overlay files
+COPY root/ /
+
 ENV GAMEDIR /data/games
+
 RUN \
  echo "**** Fetching and configuring nut. ****" && \
  wget --no-check-certificate -O nut-master.zip https://github.com/blawar/nut/archive/master.zip &&\
  wget --no-check-certificate -O titledb.zip https://github.com/blawar/titledb/archive/master.zip &&\
  unzip nut-master.zip && \
  unzip titledb.zip && \
- cd /config/nut-master/conf && \
- jq --arg v1 $GAMEDIR '.paths.scan = $v1' < nut.default.conf | jq --arg v2 $IPADDR '.server.hostname = $v2' | tee setup.conf && \
+ cd /nut-master/conf && \
+ jq --arg v1 $GAMEDIR '.paths.scan = $v1' < nut.default.conf | tee setup.conf && \
  mv setup.conf nut.default.conf && \
- cp /config/titledb-master/* /config/nut-master/titledb/ && \
+ cp /titledb-master/* /nut-master/titledb/ && \
  echo "**** Cleaning up ****" && \
  rm -rf \
- /config/nut-master.zip \
- /config/titledb.zip
+ /nut-master.zip \
+ /titledb.zip
 
-EXPOSE 9000 9000
+ADD /nut-master /app/nut
+
+
+EXPOSE 9000
+volume config/ data/
+ENV NUT_CONFIG_PATH=/config
