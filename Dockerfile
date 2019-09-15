@@ -102,8 +102,8 @@ RUN \
  mkdir -p /app/nut && \
  cp -r /nut-master/* /app/nut && \
  rm -rf \
- /nut-master.zip \
- /titledb.zip
+ /nut-master* \
+ /titledb*
 
 EXPOSE 9000
 volume config/ data/
